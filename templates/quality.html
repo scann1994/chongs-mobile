@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>Quality of This Data</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+  </head>
+
+  <body role="document">
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="about">About This Data Set</a></li>
+	    <li  class="active"><a href="quality">Data Quality</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+	<h1>Quality: About This Data Set</h1>
+      </div>
+
+    
+      <div class="page-header">
+	<h2>Is the data complete?</h2>
+	<p>No. Out of 129 countries, 112 countries are missing entries for contraceptive prevalence, 
+	antenatal care coverage, births attended by skilled health personnel. My hypothesis is that 
+	those data was too hard to retrieve for local officials (due to sparse geography or large population),
+	hence WHO couldn’t collect meaningful data for those features. I briefly searched online for data 
+	such as contraceptive use in China in 2012. There is data available, but it’s either limited to categories 
+	such as uses among married women or the methodology of data collection is unclear. My conclusion is that 
+	it is very difficult to recover the null values and that we will need to focus our exploration on 
+	under-5 mortality ratio and maternal mortality ratio in 1990, 2000 and 2010, i.e. the columns where 
+	a meaningful amount of data is available.</p>
+      </div>
+      
+      <div class="page-header">
+	<h2>Is the data coherent?</h2>
+	<p>Under-5 mortality rate column has a number of values over 100, which doesn’t make sense intuitively. 
+	I searched for the original WHO report and found out that the mortality rate refers to the number of 
+	deaths by age 5 per 1000 live births. Similarly, maternal mortality ratio refers to the number of deaths
+	per 100,000 live births. My intuition is that the distribution of the mortality rates will follow a 
+	Poisson distribution. That is confirmed by the histograms displayed in exploratory analysis. 
+	We can also retrieve reasonable findings that the overall 
+	mortality rates decreased when we moved to 2000 and 2010. Similar trends can be found for maternal 
+	mortality ratios as well. </p>
+      </div>
+
+      <div class="page-header">
+	<h2>Is the data correct?</h2>
+	<p>The estimates of mortality presented here have been derived wherever possible from death-registration 
+	data reported annually to WHO. For countries where such data are not available or are of poor quality, 
+	household surveys and censuses are used to prepare estimates of mortality rates and life expectancy. 
+	The source of data is credible as WHO has been publishing such data for decades and has been cited over
+	its data for studies at renowned academic institutions.  
+</p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+  </body>
+</html>

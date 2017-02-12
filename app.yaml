@@ -3,11 +3,27 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /js
+  static_dir: js
+  application_readable: true
+- url: /fonts
+  static_dir: fonts
+  application_readable: true
+- url: /css
+  static_dir: css
+  application_readable: true
+- url: /img
+  static_dir: img
+  application_readable: true
+- url: /templates
+  static_dir: templates
+  application_readable: true
 - url: .*
   script: main.app
+
 
 libraries:
 - name: jinja2
   version: "2.6"
-- name: markupsafe
-  version: "0.15"
+- name: webapp2
+  version: latest

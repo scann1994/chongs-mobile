@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>Explore World Health Statistics</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Custom styles for this project -->
+    <link href="css/explore.css" rel="stylesheet">
+  </head>
+  
+  <body role="document">
+    
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container" >
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About This Data Set</a></li>
+	    <li><a href="quality">Data Quality</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    <div class="container theme-showcase" role="main">
+      
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+		<h1>Exploration of World Health Statistics</h1>
+        <p>This is the Exploratory Analysis of the 2012 World Health Statistics from the World Health Organization.</p>
+      </div>
+      
+    <div class="table-responsive">
+    	<h2>Sample of Unclean Data</h2>
+    	<p>A quick view of the following unclean data sample allows us to discover a number of problems. 
+    	First, there are too many null values. In fact, Out of 129 countries, 112 countries are missing
+    	entries for contraceptive prevalence, antenatal care coverage, births attended by skilled health
+    personnel. Secondly, the column names are coded and too long, hence inconvenient to interpret
+    for our purpose of exploration. As a result, I cleaned the data by removing columns that were 
+    significantly incomplete and focused on the Under-5 mortality rates and Maternal mortality ratios
+    for 1990, 2000 and 2010. I also noted that the names “rate” and “ratio” are misleading, 
+    as both columns have values over 100. I found out from the source website that Under-5 mortality rate 
+    refers to the number of deaths by age 5 per 1000 live births. Maternal mortality ratio refers to the the 
+    number of deaths per 100,000 live birth. I considered scaling both variables to a percentage basis,
+    but did not proceed because each variable has its own reasonable scale. For example, no more than 1600 mothers 
+    die giving birth out of 100,000 live births, which means every maternal mortality ratio is going to be less
+    than 1.6%, which is harder to account for the differences and scale.</p>
+    	
+	  <table class="table table-striped table-hover">
+	    <thead class="thead-inverse">
+	     <tr> 
+	{% for item in headers %}
+	         <th>{{ item }}</th>
+	{% endfor %}
+	     </tr>
+	    </thead>
+	    <tbody>
+	{% for row in content %}
+	     <tr>
+	  {% for datum in row %}
+	            <td>{{ datum }} </td>
+	  {% endfor %}
+	     </tr>
+	{% endfor %}
+	    </tbody>
+	   </table>
+	</div> 
+      
+      <div class="table-responsive">
+      	<h2 style="padding: 50px 0px 0px 0px">Data Exploration</h2>
+      	<p>My intuition is that the distribution of the mortality rates will follow a Poisson distribution, 
+      	since each death is an independent event, the average frequency during our time period is known, and that
+      	it is only meaningful to count how many times deaths have occurred but not how many times deaths have not occurred.
+      	That is confirmed by the following histograms. Most countries have very low mortality rates while only a few countries
+      	have over 250 under-5 deaths per 1000 births or over 100 maternal deaths per 100,000 births. </p>
+      	<img src="https://c1.staticflickr.com/1/345/31912858554_836cd2d034_b.jpg" alt="hist">
+      	<p>Note: The bin size and grid size of each histogram differs, which may not showcase the decreasing trend of mortality rates.</p>
+      	
+      	<p style="padding: 40px 0px 0px 0px"> We can also see that the overall mortality rates decreased when we moved to 2000 and 2010 from the
+      	following box plots. The mean and range consistently dropped across time for both under-5 mortality
+      	rate and maternal mortality ratio. The mean Under-5 mortality rate dropped from around 50 deaths per 1000 births 
+      	in 1990 to fewer than 25 deaths per 1000 births in 2010. The Maternal mortality ratio decreased from 100 deaths
+      	per 100,000 births in 1990 to around 60 deaths per 100,000 births. Its range shrank dramatically by half from 
+      	1990 to 2010. </p>
+     	<img src="https://c1.staticflickr.com/1/569/31912856734_336c018d0e_b.jpg" alt="box">
+     	<p style="padding: 30px 0px 10px 0px">In addition, I wanted to look at whether the two mortality rates are correlated and the extent of
+     	correlations between them. Taking advantage of Seaborn's jointplot, I was able to find a high pearson
+     	correlation coefficient between the maternal mortality ratio and the under-5 mortality rate. This makes
+     	sense because both are higher in less developed countries with less advanced medical infrastructure, 
+      	knowledge and awareness. </p>
+      	<img src="https://c1.staticflickr.com/1/735/32629768251_ace08aae6d.jpg" alt="correlation">  
+
+      	<p style="padding: 40px 0px 0px 0px">The heat maps show how the two variables concentrate on countries across
+      	Africa, in south Asia and South America. The striking resemblance between the two maps shows 
+      	how correlated the two mortality rates are, confirming our previous analysis.</p>
+      	<img src= "https://c1.staticflickr.com/1/691/31942489433_4864693e6b_b.jpg">
+      	<p style="padding: 0px 0px 20px 0px"> Heatmap of Under-5 Mortality Rate across the world</p>
+      	<img src= "https://c1.staticflickr.com/1/292/31913608604_67c63259ef_b.jpg">
+      	<p style="padding: 0px 0px 20px 0px"> Heatmap of Maternal Mortality Ratio across the world
+      	
+      	
+      </div> 
+      	
+      	
+      </div>
+
+      
+      
+      <div class="page-header">
+	
+      </div> <!-- /page-header -->
+    </div> <!-- /container -->
+    
+
+    
+
+
+	
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+
+				
+				   
+				   
+</script>
+</body>
+</html>
