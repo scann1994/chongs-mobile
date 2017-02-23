@@ -1,76 +1,38 @@
+{% extends "templates/layout.html" %}
+{% block content %}
+  <div class="row marketing">
+  <div class="col-lg-12">
+    <h4>Data Quality</h4>
+    <p><a name = "complete">Data Completeness</a></p>
+  	<p>My data is incomplete in a number of ways. First, my battery data is missing voltage and other battery informatin except for battery level as seen below. This may be due to my phone's battery sensors not working properly with AWARE or AWARE's own sensors problem.</p>
+    <iframe width="700" height="300" scrolling="yes" frameborder="no" src="https://fusiontables.google.com/embedviz?viz=GVIZ&amp;t=TABLE&amp;q=select+col0%2C+col1%2C+col2%2C+col3%2C+col4%2C+col5%2C+col6%2C+col7%2C+col8%2C+col9%2C+col10+from+1LXoXSUeoCichEGaiqgURwtofVP5ycG3Esnf56z6x&amp;containerId=googft-gviz-canvas"></iframe>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-    <title>About This Data</title>
+    <p>In addition, my screen data is missing data points for hours between 7 and 12 as seen below. This seems like a systematic incomplteness, but I need to compare with other people's screen data to see if this is a general problem. </p>
+  	<iframe width="500" height="300" scrolling="no" frameborder="no" src="https://fusiontables.google.com/embedviz?containerId=googft-gviz-canvas&amp;q=select+col1%2C+col2+from+12bATdzp9dC8oiNYvgadRbGnkJgZfNL3CEy8l1SZN+order+by+col1+asc&amp;viz=GVIZ&amp;t=SCATTER&amp;rmax=250&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;gco_tooltip=%7B%22isHtml%22%3Atrue%7D&amp;tmplt=1&amp;width=500&amp;height=300"></iframe>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap theme -->
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="css/theme.css" rel="stylesheet">
-  </head>
+    <p>Due to the nature of such data, I cannot re-collect my own battery and screen data back in Feburary. I had to continue data analysis with such incomplete data, and the incomepleteness in screen data made a significant impact on my analysis.</p>
 
-  <body role="document">
-
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li  class="active"><a href="about">About This Data Set</a></li>
-	    <li><a href="quality">Data Quality</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container theme-showcase" role="main">
-
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-	<h1>Accountability: About This Data Set</h1>
-      </div>
-
+    <p><a name = "coherent">Data Coherency</a></p>
+ 
+    As noted in analysis part, there is a lack of coherency between the battery level charged and the time spent charging. I only charged for about 2 hours on Monday and Thursday, on which my battery level was charged for over 70%. It raises questions regarding whether AWARE's plugins were working properly in collect my sensors' data, since it may indicate that I was able to charge 70% battery within 2 hours while I needed 8 hours on other days to charge for an equivalent amount. 
     
-      <div class="page-header">
-	<h2>Where did this data come from?</h2>
-	<p> <a href="http://www.who.int/healthinfo/EN_WHS2012_Part3.pdf?ua=1">World Health Statistics 2012</a> by The 
-	World Health Organization. In particular, it is based on annual death-registration data 
-	and estimations prepared on surveys and censuses. </p>
-      </div>
-      
-      <div class="page-header">
-	<h2>Who has access to it?</h2>
-	<p>It is publicly available to anyone with internet access.</p>
-      </div>
+    Besides this issue, my screen data has some incoherency as well. The on/off modes are fairly evenly distirbuted while locked/unlcoked modes are fairly even as well. However, when I compare how many data points there were for on/off versus locked/unlocked for the week of 2/6/2017 to 2/12/2017, there are more data points for on/off than for locked/unlocked. This is counterintuitive because on/off statuses were not supposed to be mutually exclusive with locked/unlocked statuses, which means we should see as many data points for locked/unlocked as for on/off. 
 
+    <iframe width="400" height="250" scrolling="yes" frameborder="no" src="https://fusiontables.google.com/embedviz?viz=GVIZ&amp;t=TABLE&amp;q=select+col0%2C+col1+from+1qJ12PyuRlK5m4lDhhUcOzw0xWCXfGDsnrKQHVaQm&amp;containerId=googft-gviz-canvas"></iframe>
 
-    </div> <!-- /container -->
+    <p><a name = "correct">Data Correctness</a></p>
 
+    <p>I first thought that my screen data is not complete due to the conflicting screen statuses at the same time of the same day. Code 0 means off, 1 means on, 2 mean locked, and 3 means unlocked. After exploration, I find out that code 0 (off) and 1 (on) are mutually exclusive, while code 2 (locked) and 2 (unlocked) are mutually exclusive. I then decided to analyze my screen status by splitting it to two groups: one where I study the difference between on and off, and the other where I study the difference between locked and unlocked.</p>
+    <iframe width="300" height="300" scrolling="yes" frameborder="no" src="https://fusiontables.google.com/embedviz?viz=GVIZ&amp;t=TABLE&amp;q=select+col0%2C+col1%2C+col2%2C+col3+from+1ntOHkrKoEdT26DxFw0Jf9Q6NLJUn7jrkfiN2dwrC&amp;containerId=googft-gviz-canvas"></iframe>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/docs.min.js"></script>
-  </body>
-</html>
+    <p>Other incorrectness I spotted was some rare occurences of battery charges data where my battery level was significant lower after charging than when I started charging, which doesn't make sense because even if I was using my phone while charging, my battery would not descrease significantly. During data cleaning, I checked and got rid of these rare occurences.</p>
+
+    <iframe width="300" height="120" scrolling="yes" frameborder="no" src="https://fusiontables.google.com/embedviz?viz=GVIZ&amp;t=TABLE&amp;q=select+col0%2C+col1%2C+col2%2C+col3%2C+col4%2C+col5%2C+col6%2C+col7+from+1VgJNiuNHoP2FsLczaxjqk1wyyb2Dw3VUyqk-iOaf&amp;containerId=googft-gviz-canvas"></iframe>
+
+    <h4>Data Source</h4>
+    <p><a name = "source">Where did the data come from? Who has access to it?</a></p>
+
+    <p>The data was collceted using <a href="http://www.awareframework.com/context/">AWARE Framework's mobile application</a> and my iphone's sensors. The AWARE plugins collected and abstracted my phone's sensors’ data.  Only I have access to it.</p>
+  </div>
+  </div>
+{% endblock %}

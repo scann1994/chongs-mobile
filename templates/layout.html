@@ -12,6 +12,18 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="../css/narrow-jumbotron.css" rel="stylesheet">
+    <!-- Vega-lite visualization libraries -->
+	<script src="//d3js.org/d3.v3.min.js"></script>
+	<script src="//vega.github.io/vega/vega.js"></script>
+	<script src="//vega.github.io/vega-lite/vega-lite.js"></script>
+	<script src="//vega.github.io/vega-editor/vendor/vega-embed.js" charset="utf-8"></script>
+	    
+	<style media="screen">
+	   /* Add space between vega-embed links  */
+	    .vega-actions a {
+	      margin-right: 5px;
+	    }
+	</style>
     {% endblock %}
   </head>
   <body>
@@ -27,7 +39,7 @@
             </li>
           </ul>
         </nav>
-        <h3 class="text-muted">This is byte 3</h3>
+        <h3 class="text-muted">Byte 3 - Mobile Self-Data Exploration</h3>
       </div>
      {% block content %}
      {% endblock %}

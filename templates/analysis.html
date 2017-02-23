@@ -1,0 +1,77 @@
+{% extends "templates/layout.html" %}
+{% block content %}
+  <div class="row marketing">
+  <div class="col-lg-12">
+    <h4>Motivation</h4>
+    <p>As an avid smartphone user, I have often struggled with my phone battery being drained quickly (especially with my iPhone 6). This is why I focused on collecting AWARE data on my mobile phone battery for Byte 3. I am curious to see my charging habits: how often I need to charge my battery and how much time I spend charging my phone every day. In addition, I collected AWARE data on my phone screen and used to explore the potential relationship between my screen status and my battery level. </p>
+
+    <h4>Study of Battery Charges from 2/6/17 to 2/12/17</h4>
+    <p>I retrieved battery charges data from Google Cloud SQL for the week of Feb 6, 2017. As you can explore below, I was able to calculate how much battery my phone was charged and how long it took to for that particular charge. Since I may charge multiple times per day, I binned my time and date into a Mon/Tue/Wed/Thu/Fri/Sat/Sun basis for easy visualizatoin. </p>
+
+    <p>I chose to visualize my battery charges through a gauge chart, which looks like a car's speed meters. I chose it because it visualizes the amount of battery level changes well, it's simple and fun to look at and play with, and that it also represents the number of times I've charged my phone. Feel free to move your cursor around the chart below. </p>
+
+    <figure>
+      <embed type="image/svg+xml" src="/bat.svg" />
+    </figure>
+
+    <p>Based on this chart, we can tell that my phone was charged the greatest amount of battery level on Thursday and Sunday at 94% and 93%. On Monday, Tuesday and Saturday, my phone was charged a fairly consistent amount nearing 75%. My phone charged the least amount of on Wednesday and Friday, which makes me wonder if I was too busy on those two days that I didn't get time to stay at one place and plug the charger into my phone. </p>
+
+    <p>Therefore, I plotted the battery charging time for each day of the week starting Feb 6, 2017 as well. I chose to use the same guage chart again because it provides a good comparison to my previous chart.</p>
+
+    <figure>
+      <embed type="image/svg+xml" src="/bathr.svg" />
+    </figure>
+
+    <p>As you can see from the graph above, I charged my phone for the longest total time period on Saturday for 11.2 hours. I charged for about 8 hours on Tuesday, Wednesday, Friday and Sunday. However, what's surprising is that I only charged for about 2 hours on Monday and Thursday, on which my battery level was charged for over 70%. It raises questions regarding AWARE's data coherency since it may indicate that I was able to charge 70% battery within 2 hours while I needed 8 hours on other days to charge for an equivalent amount. </p>
+
+    <p>There are a couple of issues that may affect such incoherency:</p>
+    <p>1. I was using my phone while charging it during the 8-hour charging days, which consumed battery and slowed down the charging process.</p>
+    <p>2. AWARE did not properly collect the amount of time I spent charging my phone on Monday and Thursday, while it did collected the proper amount of battery level charged for those two days. </p>
+    <p>3. My iPhone battery was acting inconsistently, which I haven't previously noticed particularly, but has been reported as an issue for iPhone 6 (and other iPhone models) on online forums.</p>
+
+    <p>Although I don't have a way to find out whether 2 or 3 is true, this motivates me to look at my screen data to see if I was actively using my phone and it was affecting my battery level.</p>
+
+    <h4>Study of Battery Level and Screen Status</h4>
+    <p>Upon retrieving my screen data, I first went to the AWARE website to see what each code means for screen status. Code 0 means off, 1 means on, 2 mean locked, and 3 means unlocked. After initial exploration, I find out that code 0 (off) and 1 (on) are mutually exclusive, while code 2 (locked) and 2 (unlocked) are mutually exclusive. Hence I decided to split my screen status data to two groups: one containing on and off, the other containing locked and unlocked.</p>
+
+    <p>In addition, I noticed that there is a block of screen data missing for the hours 8, 9, 10, 11 and 12. This is quite disappointing, but I decided to go ahead to explore screen data anyway since I use my phone more actively in the afternoon to check social media updates and emails. </p>
+
+    <p>I took the following steps to untangle and slice my data:</p>
+    <p>1. I sliced my screen data and battery data based on dates such that both are of the week 2/6/2017 to 2/12/2017. </p>
+    <p>2. I then merged the two datasets based on date and time.</p>
+    <p>3. I extracted the integer hour of the time of each observation.</p>
+    <p>4. I calculated the average of battery level and the score of each screen status (the percentage of times that particular status appeared) of each hour. </p>
+    <p>5. I took a day (Feb 7, 2017) out of the week, made a bar plot for each hour, and scaled the score through multiplying it by 100 so that it's easier to see changes. </p>
+
+    <p>I chose to use bar chart to effectively visualize the changes in my screen status and my battery level changes. </p>
+
+    <figure>
+      <embed type="image/svg+xml" src="/batscr1.svg" />
+    </figure>
+
+    <p>Take away from the graph</p>
+    <p>Unfortunately, the missing section of my screen data came out to be fairly significant because it coincides with the peak of my battery level. If I actually know of my screen status as Off, for example, I would be able to reject my hypothesis 1 in the previous discussion, which said that I was using my phone while charging, which is why it took longer to charge. However, If you look at the hour of 13 and 14, you can see that my screen was on a lot more frequently, hence draining my battery in hours 13 and 14 simultaneously. Other occurences of such a correlation are at hours 18 and 22.</p>
+    <p>In addition, we can also spot that my phone got charged mostly in the morning between 6 and 8 on Feb 7th, remained constant during class time of Interactive Data Science (which means I paid attention in class!), and sloped off in the afternoon starting at 1 pm. As I recall, I plugged in the charger before sleep around 1 am, but the charging curve didn't ramp up until 6 am, which to some degree enchoes our hypothesis 3 in the previous discussion that my iPhone6 battery has an inconsistent charging behavior.</p>
+
+    <h4>Take away from the analysis</h4>
+    <p>I was able to answer questions about my charging habits, but the incompleteness of my screen data prevented me from answering the question about the relationship between screen status and battery lelve.</p>
+    <p>1. I charge my phone for around 70% battery level for 8 hours most days of the week.</p>
+    <p>2. My battery level stays high throughout the morning and slopes down in the afternoon.</p>
+    <p>3. When my screen is on or unlocked, my battery drains faster.</p>
+    <p>4. My phone seem to charge much faster from 6 am to 8 am than during before 6 even though I plug in the charger at 1 am.</p>
+  </div>
+  </div>
+
+  
+  <div class="row marketing">
+  <div class="col-lg-12">
+    <h4>Data Quality</h4>
+    <p><a href="about#complete">Is the data complete?</a></p>
+    <p><a href="about#coherent">Is the data coherent?</a></p>
+    <p><a href="about#correct">Is the data correct?</a></p>
+
+    <h4>Data Source</h4>
+    <p><a href="about#source">Where did the data come from?</a></p>
+  </div>
+  </div>
+{% endblock %}
